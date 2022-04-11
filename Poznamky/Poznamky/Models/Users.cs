@@ -12,5 +12,8 @@ namespace Poznamky.Models
 
         [Required]
         public string Mail { get; set; } = String.Empty;
+
+        [Required]
+        public string Heslo { get; set; } = String.Empty;
     }
-}
+}       
