@@ -1,27 +1,44 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+namespace Poznamky
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // vytvoreni tvorice aplikace
+            var builder = WebApplication.CreateBuilder(args);
+            
+            // nastaveni tvorice aplikace
+            builder.Services.AddControllersWithViews();
+            
+            builder.Services.AddDbContext<Poznamky.Data.NasDatovyKontext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // vytvoreni aplikace
+            var app = builder.Build();
+
+            // nastaveni aplikace
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseSession();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
+            });
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Vychozi}/{action=Index}/{id?}");
+
+            // spusteni aplikace
+            app.Run();
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
