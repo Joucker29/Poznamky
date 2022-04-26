@@ -36,8 +36,7 @@ namespace Poznamky.Controllers
                 return View();
             }
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
-

@@ -7,15 +7,35 @@ namespace Poznamky
     {
         static void Main(string[] args)
         {
-            // vytvoreni aplikace
+            // vytvoreni tvorice aplikace
             var builder = WebApplication.CreateBuilder(args);
+
+            // nastaveni tvorice aplikace
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<Data.NasDatovyKontext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = ".Poznamky";
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+            });
+
+            // vytvoreni aplikace
             var app = builder.Build();
 
             // nastaveni aplikace
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseSession();
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
