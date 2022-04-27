@@ -31,8 +31,17 @@ namespace Poznamky.Controllers
         {
             if (jmeno == null)
             {
-                Debug.WriteLine("CHYBA");
-                ViewData["chyba"] = "Máš špatně napsané jméno!";
+                ViewData["chyba"] = "Nenapsali jste jméno!";
+                return View();
+            }
+            if (email == null)
+            {
+                ViewData["chyba"] = "Nenapsali jste E-mail!";
+                return View();
+            }
+            if (heslo == null)
+            {
+                ViewData["chyba"] = "Nenapsali jste Heslo!";
                 return View();
             }
             Users SameUser = Databaze.Users
@@ -57,8 +66,35 @@ namespace Poznamky.Controllers
                 return RedirectToAction("prihlaseni", "Uzivatel");
             }
 
+            if (SameUser != null)
+            {
+                ViewData["chyba"] = "Tento uživatel již existuje";
+            }
+
+            if (SameMail != null)
+            {
+                ViewData["chyba"] = "Tento E-mail již existuje";
+            }
+
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult prihlaseni(string jmeno, string heslo, string email)
+        {
+            Users SameUser = Databaze.Users
+            .Where(n => n.Jmeno == jmeno)
+            .FirstOrDefault();
+
+            Users SameMail = Databaze.Users
+            .Where(u => u.Mail == email)
+            .FirstOrDefault();
+
+
 
             return View();
         }
     }       
 }
+
+        
