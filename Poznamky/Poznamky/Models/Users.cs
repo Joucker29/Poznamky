@@ -8,12 +8,12 @@ namespace Poznamky.Models
         public int Id { get; set; }
 
         [Required]
-        public string Text { get; set; } = String.Empty;
+        public string Jmeno { get; set; } = String.Empty;
 
         [Required]
         public string Mail { get; set; } = String.Empty;
 
         [Required]
-        public string Heslo { get; set; } = String.Empty;
+        public string Heslo_hashed { get; set; } = String.Empty;
     }
 }       

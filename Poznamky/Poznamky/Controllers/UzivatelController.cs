@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Poznamky.Data;
 using System.Diagnostics;
+using Poznamky.Models;
 
 namespace Poznamky.Controllers
 {
@@ -28,15 +29,36 @@ namespace Poznamky.Controllers
         [HttpPost]
         public IActionResult registrovani(string jmeno, string heslo, string email)
         {
-            Debug.Write(jmeno);
             if (jmeno == null)
             {
                 Debug.WriteLine("CHYBA");
                 ViewData["chyba"] = "Máš špatně napsané jméno!";
                 return View();
             }
+            Users SameUser = Databaze.Users
+            .Where(n => n.Jmeno == jmeno)
+            .FirstOrDefault();
 
-            return RedirectToAction("Index", "Home");
+
+            Users SameMail = Databaze.Users
+            .Where(u => u.Mail == email)
+            .FirstOrDefault();
+
+            if (SameUser == null && SameMail == null)
+            {
+                Users newUser = new Users()
+                {
+                    Jmeno = jmeno,
+                    Mail = email,
+                    Heslo_hashed = BCrypt.Net.BCrypt.HashPassword(heslo)
+                };
+                Databaze.Add(newUser);
+                Databaze.SaveChanges();
+                return RedirectToAction("prihlaseni", "Uzivatel");
+            }
+
+
+            return View();
         }
-    }
+    }       
 }
