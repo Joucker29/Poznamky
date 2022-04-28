@@ -80,21 +80,34 @@ namespace Poznamky.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult prihlaseni(string jmeno, string heslo, string email)
+        public IActionResult prihlaseni(string jmeno, string heslo)
         {
+
+            if (jmeno == null)
+            {
+                ViewData["chyba"] = "Nenapsali jste jméno!";
+                return View();
+            }
+            if (heslo == null)
+            {
+                ViewData["chyba"] = "Nenapsali jste Heslo!";
+                return View();
+            }
+
             Users SameUser = Databaze.Users
             .Where(n => n.Jmeno == jmeno)
             .FirstOrDefault();
 
-            Users SameMail = Databaze.Users
-            .Where(u => u.Mail == email)
-            .FirstOrDefault();
-
-
-
+            if (SameUser != null && BCrypt.Net.BCrypt.Verify(heslo, SameUser.Heslo_hashed))
+            {
+                return RedirectToAction("prehled", "Poznamky");
+            }
+            else
+            {
+                ViewData["chyba"] = "Špatné jméno nebo heslo.";
+            }
+            
             return View();
         }
     }       
 }
-
-        

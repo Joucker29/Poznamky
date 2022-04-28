@@ -7,11 +7,13 @@ namespace Poznamky.Models
         [Key]
         public int Id { get; set; }
 
-        [Required] 
-        public string Text { get; set; } = string.Empty;
+        [Required]
+        public string Nadpis { get; set; } = String.Empty;
 
         [Required]
-        public string Prezdivka { get; set; } = string.Empty;
+        public string Text { get; set; } = String.Empty;
 
+        [Required]
+        public DateTime CasPridani { get; set; }
     }
 }
