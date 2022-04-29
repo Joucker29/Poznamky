@@ -1,5 +1,28 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor p
+@using Poznamky.Models;
+@model List<Poznamkyy>;
+@{
+
     Layout = "_Layout";
 }
-<p>Ligma</p> </br>
-<p>Jste přihlášen jako: @ViewData["uzivatel"]</p>
+<h1>Vaše poznámky:</h1>
+<p>@ViewData["chyba"]</p>
+@if (Model.Where(i => i.Owner == p.HttpContext.Session.GetString("Jmeno_Prihlaseni")).Count() != 0)
+{
+    @foreach (Poznamkyy poznamka in Model.Where(i => i.Owner == p.HttpContext.Session.GetString("Jmeno_Prihlaseni")))
+    {
+        @if (poznamka.JeDulezita == true)
+        {
+        
+        <p style="color:red;">DULEZITE: @poznamka.Nadpis</p>
+        <p style="color:red; border-bottom: solid black 3px;">@poznamka.CasPridani</p>
+            
+        }
+        @if (poznamka.JeDulezita != true)
+        {
+            <p>@poznamka.Nadpis</p>
+            <p style="border-bottom: solid black 3px;">@poznamka.CasPridani</p>
+
+        }
+    }
+}

@@ -15,5 +15,11 @@ namespace Poznamky.Models
 
         [Required]
         public DateTime CasPridani { get; set; }
+        
+        [Required]
+        public bool JeDulezita { get; set; }
+
+        [Required]
+        public string Owner { get; set; } = String.Empty;
     }
 }

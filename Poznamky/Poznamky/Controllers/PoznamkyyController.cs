@@ -17,20 +17,60 @@ namespace Poznamky.Controllers
         [HttpGet]
         public IActionResult prehled()
         {
-            
-            Users is_prihlasen = Databaze.Users
-            .Where(n => n.JePrihlasen == true)
-            .FirstOrDefault();
+
+            List<Poznamkyy> ListPoznamky = Databaze.Poznamky
+            .Where(n => n.Owner == HttpContext.Session.GetString("Jmeno_Prihlaseni"))
+            .ToList();
 
 
             if (HttpContext.Session.GetString("Jmeno_Prihlaseni") != null || HttpContext.Session.GetString("Jmeno_Prihlaseni") != "")
             {
                 ViewData["uzivatel"] = HttpContext.Session.GetString("Jmeno_Prihlaseni");
             }
-            return View(); 
+            return View(ListPoznamky);
+        }
+        [HttpGet]
+        public IActionResult pridat_poznamku()
+        {
+            if (HttpContext.Session.GetString("Jmeno_Prihlaseni") != null)
+            {
+                return View();
+            }
+            ViewData["chyba"] = "První se přihlašte!";
+            return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public IActionResult pridat_poznamku(string nadpis, string text, string Dulezita)
+        {
+            if (nadpis == null || text == null)
+            {
+                ViewData["chyba"] = "Nezapomněl jste něco?";
+            }
+            
+            bool Ligma;
+            if (Dulezita == string.Empty || Dulezita == null)
+            {
+                Ligma = false;
+            }
+            else { Ligma = true; }
 
+            if (HttpContext.Session.GetString("Jmeno_Prihlaseni") != null)
+            { 
+                Poznamkyy NovaPoznamka = new Poznamkyy()
+                {
+                    Nadpis = nadpis,
+                    Text = text,
+                    JeDulezita = Ligma,
+                    Owner = HttpContext.Session.GetString("Jmeno_Prihlaseni"),
+                    CasPridani = DateTime.Now
+                };
+                Databaze.Add(NovaPoznamka);
+                Databaze.SaveChanges();
+                return RedirectToAction("prehled", "Poznamkyy");
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
     }
 }

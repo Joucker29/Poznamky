@@ -5,10 +5,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Poznamky</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Poznamky.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/Poznamky.styles.css" asp-append-version="true"/>
 </head>
 <body>
     <header>
@@ -16,6 +16,10 @@
             <a href="/Home/index">Home</a>
             <a href="/Uzivatel/prihlaseni">Prihlasit</a>
             <a href="/Uzivatel/registrovani">Registrovat</a>
+            <a href="/Poznamkyy/pridat_poznamku">Přidat poznámku</a>
+            <a style="font-weight:bold;" href="/Uzivatel/Odhlasit">Odhlasit</a>
+            
+            
             @if (p.HttpContext.Session.GetString("Jmeno_Prihlaseni") != null)
             {
                 <span>Jste přihlášen jako: @p.HttpContext.Session.GetString("Jmeno_Prihlaseni")</span>

@@ -110,5 +110,15 @@ namespace Poznamky.Controllers
             
             return View();
         }
+        [HttpGet]
+        public IActionResult Odhlasit()
+        {
+            if (HttpContext.Session.GetString("Jmeno_Prihlaseni") != null)
+            {
+                HttpContext.Session.Remove("Jmeno_Prihlaseni");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
     }       
 }
