@@ -17,7 +17,20 @@ namespace Poznamky.Controllers
         [HttpGet]
         public IActionResult prehled()
         {
-            return View();
+            
+            Users is_prihlasen = Databaze.Users
+            .Where(n => n.JePrihlasen == true)
+            .FirstOrDefault();
+
+
+            if (HttpContext.Session.GetString("Jmeno_Prihlaseni") != null || HttpContext.Session.GetString("Jmeno_Prihlaseni") != "")
+            {
+                ViewData["uzivatel"] = HttpContext.Session.GetString("Jmeno_Prihlaseni");
+            }
+            return View(); 
         }
+
+
+
     }
 }

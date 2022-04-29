@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poznamky.Data;
 
@@ -11,9 +12,10 @@ using Poznamky.Data;
 namespace Poznamky.Migrations
 {
     [DbContext(typeof(NasDatovyKontext))]
-    partial class NasDatovyKontextModelSnapshot : ModelSnapshot
+    [Migration("20220428160528_nwm_men")]
+    partial class nwm_men
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +59,6 @@ namespace Poznamky.Migrations
                     b.Property<string>("Heslo_hashed")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("JePrihlasen")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Jmeno")
                         .IsRequired()

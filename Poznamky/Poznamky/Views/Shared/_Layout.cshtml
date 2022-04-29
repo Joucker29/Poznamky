@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor p
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,9 +12,16 @@
 </head>
 <body>
     <header>
-        <a href="/Home/index">Home</a>
-        <a href="/Uzivatel/prihlaseni">Prihlasit</a>
-        <a href="/Uzivatel/registrovani">Registrovat</a>
+        <div>
+            <a href="/Home/index">Home</a>
+            <a href="/Uzivatel/prihlaseni">Prihlasit</a>
+            <a href="/Uzivatel/registrovani">Registrovat</a>
+            @if (p.HttpContext.Session.GetString("Jmeno_Prihlaseni") != null)
+            {
+                <span>Jste přihlášen jako: @p.HttpContext.Session.GetString("Jmeno_Prihlaseni")</span>
+            }
+        </div>
+        
     </header>
     <div class="container">
         <main role="main" class="pb-3">

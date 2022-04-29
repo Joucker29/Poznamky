@@ -15,5 +15,8 @@ namespace Poznamky.Models
 
         [Required]
         public string Heslo_hashed { get; set; } = String.Empty;
+
+        [Required]
+        public bool JePrihlasen { get; set; } = false;
     }
 }       

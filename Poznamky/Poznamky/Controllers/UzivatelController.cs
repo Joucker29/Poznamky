@@ -5,8 +5,10 @@ using Poznamky.Models;
 
 namespace Poznamky.Controllers
 {
+    
     public class UzivatelController : Controller
     {
+        public int Id_prihlaseny_uzivatel;
 
         NasDatovyKontext Databaze { get; }
 
@@ -48,7 +50,7 @@ namespace Poznamky.Controllers
             .Where(n => n.Jmeno == jmeno)
             .FirstOrDefault();
 
-
+            
             Users SameMail = Databaze.Users
             .Where(u => u.Mail == email)
             .FirstOrDefault();
@@ -75,8 +77,6 @@ namespace Poznamky.Controllers
             {
                 ViewData["chyba"] = "Tento E-mail již existuje";
             }
-
-
             return View();
         }
         [HttpPost]
@@ -100,7 +100,8 @@ namespace Poznamky.Controllers
 
             if (SameUser != null && BCrypt.Net.BCrypt.Verify(heslo, SameUser.Heslo_hashed))
             {
-                return RedirectToAction("prehled", "Poznamky");
+                HttpContext.Session.SetString("Jmeno_Prihlaseni", jmeno);
+                return RedirectToAction("prehled", "Poznamkyy");
             }
             else
             {
