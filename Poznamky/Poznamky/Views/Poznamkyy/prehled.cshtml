@@ -1,4 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor p
+@using System.Diagnostics´;
 @using Poznamky.Models;
 @model List<Poznamkyy>;
 @{
@@ -14,15 +15,16 @@
         @if (poznamka.JeDulezita == true)
         {
         
-        <p style="color:red;">DULEZITE: @poznamka.Nadpis</p>
-        <p style="color:red; border-bottom: solid black 3px;">@poznamka.CasPridani</p>
+            <a style="text-decoration:none; color:black;" href="/Poznamkyy/edit/@poznamka.Id"><p style="color:red;">DULEZITE: @poznamka.Nadpis</p></a>
+            <p style="color:red; border-bottom: solid black 3px;">@poznamka.CasPridani</p>
             
         }
         @if (poznamka.JeDulezita != true)
         {
-            <p>@poznamka.Nadpis</p>
+            Debug.WriteLine("Prehled:");
+            Debug.WriteLine(poznamka.Id);
+            <a style="text-decoration:none; color:black;" href="/Poznamkyy/edit/@poznamka.Id"><p>@poznamka.Nadpis</p></a>
             <p style="border-bottom: solid black 3px;">@poznamka.CasPridani</p>
-
         }
     }
 }

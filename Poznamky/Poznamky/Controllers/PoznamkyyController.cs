@@ -71,6 +71,18 @@ namespace Poznamky.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        
+        [HttpGet]
+        public IActionResult edit(int Id)
+        {
+            Debug.WriteLine("ČÍSLO ID:");
+            Debug.WriteLine(Id);
+            Poznamkyy poznamka = Databaze.Poznamky
+            .Where(n => n.Id == Id).FirstOrDefault();
+
+            if (poznamka != null && poznamka.Owner == HttpContext.Session.GetString("Jmeno_Prihlaseni")) {return View(poznamka);}
+            else {return RedirectToAction("prehled", "Poznamkyy");}
+        }
 
     }
 }
