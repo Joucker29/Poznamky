@@ -1,5 +1,5 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor p
-@using System.Diagnostics´;
+@using System.Diagnostics;
 @using Poznamky.Models;
 @model List<Poznamkyy>;
 @{
@@ -21,8 +21,6 @@
         }
         @if (poznamka.JeDulezita != true)
         {
-            Debug.WriteLine("Prehled:");
-            Debug.WriteLine(poznamka.Id);
             <a style="text-decoration:none; color:black;" href="/Poznamkyy/edit/@poznamka.Id"><p>@poznamka.Nadpis</p></a>
             <p style="border-bottom: solid black 3px;">@poznamka.CasPridani</p>
         }

@@ -84,5 +84,21 @@ namespace Poznamky.Controllers
             else {return RedirectToAction("prehled", "Poznamkyy");}
         }
 
+        [HttpGet]
+        public IActionResult smazat_poznamku(int Id)
+        {
+            if (Id == null) { return RedirectToAction("prehled", "Poznamkyy"); }
+
+            Debug.WriteLine("Id: ");
+            Debug.WriteLine(Id);
+
+            Poznamkyy poznamka = Databaze.Poznamky
+            .Where(n => n.Id == Id).FirstOrDefault();
+
+            Databaze.Remove(poznamka);
+            Databaze.SaveChanges();
+            
+            return RedirectToAction("prehled", "Poznamkyy");
+        }
     }
 }
