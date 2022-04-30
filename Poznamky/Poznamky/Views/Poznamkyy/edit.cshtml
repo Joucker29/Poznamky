@@ -10,6 +10,13 @@
 <h1 style="border-bottom:solid black 3px">@Model.Nadpis</h1>
 <p>@Model.Text</p>
 
-<div style="text-align: center; margin: 0, auto;">
-    <a style="text-decoration:none;background-color: cyane;border: 2px solid black;margin: 0, auto;" href="/Poznamkyy/smazat_poznamku/@Model.Id"> Smazat poznámku </a>
+<form action="/Poznamkyy/JeDulezita_idk/@Model.Id" method="post">
+    <input type="submit" value="Přepínání jestli je důležitá"/>
+</form> 
+
+<div style="text-align: left;">
+    <a style="text-decoration:none;background-color: aquamarine;border: 2px solid black;" href="/Poznamkyy/smazat_poznamku/@Model.Id"> Smazat poznámku </a>
+</div>
+<div style="text-align: left; padding-top: 2em;">
+    <a style="text-decoration:none;background-color: aquamarine;border: 2px solid black;" href="/Poznamkyy/prehled">Zpět</a>
 </div>

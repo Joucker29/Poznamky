@@ -17,6 +17,11 @@
             <a href="/Uzivatel/prihlaseni">Prihlasit</a>
             <a href="/Uzivatel/registrovani">Registrovat</a>
             <a href="/Poznamkyy/pridat_poznamku">Přidat poznámku</a>
+            @if (p.HttpContext.Session.GetString("Jmeno_Prihlaseni") != null)
+            {
+                <a href="/Poznamkyy/prehled">Přehled poznámek</a>
+                <a style="color: red;" href="/Uzivatel/SmazatUcet">Smazat účet!</a>
+            }
             <a style="font-weight:bold;" href="/Uzivatel/Odhlasit">Odhlasit</a>
             
             

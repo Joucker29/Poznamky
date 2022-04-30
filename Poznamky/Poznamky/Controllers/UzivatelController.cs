@@ -120,5 +120,48 @@ namespace Poznamky.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public IActionResult SmazatUcet()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SmazatUcet(string heslo)
+        {
+            if (HttpContext.Session.GetString("Jmeno_Prihlaseni") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+                
+            if (heslo == null)
+            {
+                ViewData["chyba"] = "Nenapsali jste heslo!";
+                return View();
+            }
+            
+            Users SameUser = Databaze.Users
+            .Where(n => n.Jmeno == HttpContext.Session.GetString("Jmeno_Prihlaseni"))
+            .FirstOrDefault();
+
+            if (SameUser != null && BCrypt.Net.BCrypt.Verify(heslo, SameUser.Heslo_hashed))
+            {
+                foreach(Poznamkyy poznamka in Databaze.Poznamky.Where(n => n.Owner == HttpContext.Session.GetString("Jmeno_Prihlaseni")))
+                {
+                    Databaze.Remove(poznamka);
+                }
+
+                Databaze.Remove(SameUser);
+                Databaze.SaveChanges();
+                HttpContext.Session.Remove("Jmeno_Prihlaseni");
+                return RedirectToAction("Index", "Home");
+            }
+            if (!BCrypt.Net.BCrypt.Verify(heslo, SameUser.Heslo_hashed))
+            {
+                ViewData["chyba"] = "Špatné heslo";
+                return View();
+            }
+            return View();
+            
+        }
     }       
 }

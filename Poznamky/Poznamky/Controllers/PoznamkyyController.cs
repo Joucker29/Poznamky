@@ -100,5 +100,20 @@ namespace Poznamky.Controllers
             
             return RedirectToAction("prehled", "Poznamkyy");
         }
+        [HttpPost]
+        public IActionResult JeDulezita_idk(int Id)
+        {
+
+            Poznamkyy poznamka = Databaze.Poznamky
+            .Where(n => n.Id == Id).FirstOrDefault();
+
+            if (poznamka == null) { return RedirectToAction("prehled", "Poznamkyy"); }  
+
+            poznamka.JeDulezita = !poznamka.JeDulezita;
+            Databaze.SaveChanges();
+
+            return RedirectToAction("prehled", "Poznamkyy");
+        }
+        
     }
 }
